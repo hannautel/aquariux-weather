@@ -21,7 +21,14 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "paths": {
+      "@modules/*": ["./src/modules/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@core/*": ["./src/core/*"],
+      "@typed/*": ["./src/types/*"],
+    }
   },
   "include": ["src"]
 }
