@@ -7,7 +7,6 @@ import {
 } from '@root/__tests__/utils/renderWithRouter.helper';
 import { ILocation } from '@typed/location';
 
-// Mock the context
 jest.mock('@contexts/SelectedLocationContext', () => ({
   useSelectedLocationContext: jest.fn(),
 }));

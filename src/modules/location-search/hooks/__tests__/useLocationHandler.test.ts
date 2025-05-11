@@ -31,7 +31,6 @@ const mockUseNavigate = useNavigate as jest.Mock;
 describe('useLocationHandler', () => {
   const mockOnChangeCoord = jest.fn();
   const mockNavigate = jest.fn();
-
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseSelectedLocationContext.mockReturnValue({
@@ -67,8 +66,8 @@ describe('useLocationHandler', () => {
     it('should move existing location to the top', () => {
       const mockFirstLocation: ILocation = {
         name: 'Singapore',
-        lat: 21.0285,
-        lon: 105.8542,
+        lat: 12.0285,
+        lon: 103.8542,
         state: '',
         country: 'SG',
       };
@@ -87,32 +86,35 @@ describe('useLocationHandler', () => {
   });
 
   describe('when remove location from history', () => {
-    it('should save the locations without the removed one', () => {
-      const secondLocation = {
-        ...sampleLocation,
-        name: 'Hue',
-        lat: 16.4637,
-        lon: 107.5909,
-      };
-      mockGetSearchHistory.mockReturnValue([sampleLocation, secondLocation]);
-      const { result } = renderHook(() => useLocationHandler());
-
-      result.current.onRemoveLocation(secondLocation);
-
-      expect(mockSetLocalstorageItem).toHaveBeenCalledWith(
-        LOCALSTORAGE_KEYS.WEARTHER_HISTORY,
-        JSON.stringify([sampleLocation]),
-      );
+    describe('when location is found in list', () => {
+      it('should save the locations without the removed one', () => {
+        const secondLocation = {
+          ...sampleLocation,
+          name: 'Hue',
+          lat: 16.4637,
+          lon: 107.5909,
+        };
+        mockGetSearchHistory.mockReturnValue([sampleLocation, secondLocation]);
+        const { result } = renderHook(() => useLocationHandler());
+        result.current.onRemoveLocation(secondLocation);
+        expect(mockSetLocalstorageItem).toHaveBeenCalledWith(
+          LOCALSTORAGE_KEYS.WEARTHER_HISTORY,
+          JSON.stringify([sampleLocation]),
+        );
+      });
     });
 
     describe('when location is not found in the list', () => {
-      mockGetSearchHistory.mockReturnValue([sampleLocation]);
-
-      const { result } = renderHook(() => useLocationHandler());
-
-      result.current.onRemoveLocation({ ...sampleLocation, lat: 99, lon: 99 });
-
-      expect(mockSetLocalstorageItem).not.toHaveBeenCalled();
+      it('should save not change the list in storage', () => {
+        mockGetSearchHistory.mockReturnValue([sampleLocation]);
+        const { result } = renderHook(() => useLocationHandler());
+        result.current.onRemoveLocation({
+          ...sampleLocation,
+          lat: 99,
+          lon: 99,
+        });
+        expect(mockSetLocalstorageItem).not.toHaveBeenCalled();
+      });
     });
   });
 });
