@@ -1,7 +1,7 @@
-export interface ICity {
+import type { ICoordinate } from './coordinate';
+
+export interface ILocation extends ICoordinate {
   name: string;
-  lat: number;
-  lon: number;
   country: string;
   state: string;
 }

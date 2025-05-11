@@ -1,25 +1,27 @@
-interface IWeatherCoordinate {
-  lon: number;
-  lat: number;
+import type { ICoordinate } from './coordinate';
+
+interface IWeatherCloud {
+  all: number;
 }
 
-interface IWeatherDetail {
+interface IWeatherSys {
+  country: string;
+  sunrise: number;
+  sunset: number;
+}
+export interface IWeatherDetail {
   id: number;
   main: string;
   description: string;
   icon: string;
 }
 
-interface IWeatherWind {
+export interface IWeatherWind {
   speed: number;
   deg: number;
 }
 
-interface IWeatherCloud {
-  all: number;
-}
-
-interface IWeatherMain {
+export interface IWeatherMain {
   temp: number;
   feels_like: number;
   temp_min: number;
@@ -30,14 +32,8 @@ interface IWeatherMain {
   grnd_level: number;
 }
 
-interface IWeatherSys {
-  country: string;
-  sunrise: number;
-  sunset: number;
-}
-
 export interface IWeather {
-  coord: IWeatherCoordinate;
+  coord: ICoordinate;
   weather: IWeatherDetail[];
   base: string;
   main: IWeatherMain;
