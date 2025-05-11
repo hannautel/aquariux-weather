@@ -1,54 +1,44 @@
-# React + TypeScript + Vite
+# Aquariux Weather
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a weather app where users can search for locations and check the weather of them.
 
-Currently, two official plugins are available:
+This project is built using React, Typescript, TailwindCSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Currently, two features are available:
 
-## Expanding the ESLint configuration
+- Weather (Current weather and 5 days forecast)
+- Location search (Search with city name)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## How to set up
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+After cloning this project, you need to ensure that you installed `pnpm`
+
+Firstly, my advice is run `cp .env-example .env`, then provide the value of `VITE_API_APP_ID`. it's very important of this app
+
+Now, we can start viewing the app, you need to run following commands:
+
+```
+pnpm install
+pnpm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Testing
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+This project is tested using Jest, Testing Library.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+You can just check the test cases by:
+
 ```
+pnpm run test
+```
+
+If you want to check the coverage. just add `--coverage` after the test command. 
+
+```
+pnpm run test --coverage
+```
+
+## How to deploy
+
+You can just run build by `pnpm run build`
+
