@@ -7,7 +7,7 @@ import type { ILocation } from '@typed/location';
 import LocationInfo from '@modules/location-search/components/LocationInfo';
 
 function LocationSearchHistory() {
-  const { onSelectLocation } = useLocationHandler();
+  const { onSelectLocation, onRemoveLocation } = useLocationHandler();
   const inititalHistories = useConst<ILocation[]>(getSearchHistory);
   const [searchHistories, setSearchHistories] =
     useState<ILocation[]>(inititalHistories);
@@ -17,6 +17,7 @@ function LocationSearchHistory() {
   }
 
   function handleDeleteSearchHistory(rowIndex: number) {
+    onRemoveLocation(searchHistories[rowIndex]);
     setSearchHistories((listSearchHistories) => {
       listSearchHistories.splice(rowIndex, 1);
       return [...listSearchHistories];
@@ -35,7 +36,7 @@ function LocationSearchHistory() {
     <>
       <h2 className="text-base font-medium text-left mb-2">Search History</h2>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 py-2.5">
-        {searchHistories.map((searchHistory, rowIndex) => (
+        {searchHistories.map((searchHistory, index) => (
           <div
             className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-200"
             key={`${searchHistory.lat}-${searchHistory.lon}`}
@@ -51,7 +52,7 @@ function LocationSearchHistory() {
                 className="p-1 text-gray-700 hover:text-red-500 transition-colors"
                 onClick={(event) => {
                   event.stopPropagation();
-                  handleDeleteSearchHistory(rowIndex);
+                  handleDeleteSearchHistory(index);
                 }}>
                 <TrashIcon size="20" />
               </button>

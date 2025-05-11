@@ -33,7 +33,24 @@ function useLocationHandler() {
     [onChangeCoord, navigate],
   );
 
-  return { onSelectLocation: handleSelectLocation };
+  const handleRemoveLocation = useCallback((location: ILocation) => {
+    const searchHistories = getSearchHistory();
+    const rowIndex = searchHistories.findIndex(
+      (h) => h.lat === location.lat && h.lon === location.lon,
+    );
+    if (rowIndex === -1) return;
+    const newHistories = [...searchHistories];
+    newHistories.splice(rowIndex, 1);
+    setLocalstorageItem(
+      LOCALSTORAGE_KEYS.WEARTHER_HISTORY,
+      JSON.stringify(newHistories),
+    );
+  }, []);
+
+  return {
+    onSelectLocation: handleSelectLocation,
+    onRemoveLocation: handleRemoveLocation,
+  };
 }
 
 export default useLocationHandler;

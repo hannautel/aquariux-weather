@@ -30,6 +30,7 @@ function LocationSearchBox() {
           type="text"
           name="keyword"
           defaultValue={keyword}
+          autoFocus
         />
         <button className="primary" type="submit">
           Search
