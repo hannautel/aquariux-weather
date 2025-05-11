@@ -9,11 +9,10 @@ function LocationSearchBox() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!inputRef.current) return;
-    const value = inputRef.current.value.trim();
+    const value = inputRef.current!.value.trim();
     if (value.length < 3) {
       setErrorMessage('City name must be at least 3 characters');
-      inputRef.current.focus();
+      inputRef.current!.focus();
       return;
     }
     setErrorMessage('');
