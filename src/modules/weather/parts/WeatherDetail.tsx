@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { ArrowUp } from 'lucide-react';
 import { getWeatherIcon, getWeatherVisibility } from '@utils/weather.util';
 import { useSelectedLocationContext } from '@contexts/SelectedLocationContext';
-import WeatherLoading from '@modules/cang/components/WeatherLoading';
-import useCurrentWeather from '@modules/cang/hooks/useCurrentWeather';
+import WeatherLoading from '@modules/weather/components/WeatherLoading';
+import useCurrentWeather from '@modules/weather/hooks/useCurrentWeather';
 
 function WeatherDetail() {
   const { coord } = useSelectedLocationContext();

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { IWeatherForecastResponse } from '@typed/weather-forecast';
-import { groupForecastsByDay } from '@modules/cang/utils/group-forecasts.util';
+import { groupForecastsByDay } from '@modules/weather/utils/group-forecasts.util';
 
 describe('groupForecastsByDay', () => {
   const baseTime = dayjs('2024-05-10T10:00:00Z').unix();
