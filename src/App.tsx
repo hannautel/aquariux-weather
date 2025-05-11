@@ -4,7 +4,7 @@ import { initAxios } from '@configs/axios';
 import { lazy, Suspense } from 'react';
 import SelectedLocationProvider from './contexts/SelectedLocationContext';
 
-const Weather = lazy(() => import('@modules/weather/Weather'));
+const Weather = lazy(() => import('@modules/Weather/Weather'));
 const WeatherSeach = lazy(
   () => import('@modules/location-search/LocationSearch'),
 );

@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import isTodayPlugin from 'dayjs/plugin/isToday';
 import { getWeatherIcon } from '@utils/weather.util';
 import { useSelectedLocationContext } from '@contexts/SelectedLocationContext';
-import useWeatherForecast from '@modules/weather/hooks/useWeatherForecast';
-import WeatherForecastLoading from '@modules/weather/components/WeatherForecastLoading';
+import useWeatherForecast from '@modules/Weather/hooks/useWeatherForecast';
+import WeatherForecastLoading from '@modules/Weather/components/WeatherForecastLoading';
 
 dayjs.extend(isTodayPlugin);
 

@@ -7,7 +7,7 @@ jest.mock('@utils/weather.util', () => ({
 import { render, screen } from '@testing-library/react';
 import WeatherForecast from '../WeatherForecast';
 import { useSelectedLocationContext } from '@contexts/SelectedLocationContext';
-import useWeatherForecast from '@modules/weather/hooks/useWeatherForecast';
+import useWeatherForecast from '@modules/Weather/hooks/useWeatherForecast';
 import dayjs from 'dayjs';
 
 const mockUseSelectedLocationContext = useSelectedLocationContext as jest.Mock;
