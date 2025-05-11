@@ -15,12 +15,12 @@ function LocationSearchResult() {
       <div className="mt-5">
         <h2 className="text-base font-medium text-left mb-2">Search Results</h2>
         <div className="py-2 bg-white rounded-lg shadow-sm border border-gray-200">
-          <button className="w-full px-3 py-1 animate-pulse h-[52px]">
+          <div className="w-full px-3 py-1 animate-pulse h-[52px]">
             <div className="bg-gray-200 h-full rounded-lg" />
-          </button>
-          <button className="w-full px-3 py-1 h-[52px] animate-pulse">
+          </div>
+          <div className="w-full px-3 py-1 h-[52px] animate-pulse">
             <div className="bg-gray-200 h-full rounded-lg" />
-          </button>
+          </div>
         </div>
       </div>
     );
