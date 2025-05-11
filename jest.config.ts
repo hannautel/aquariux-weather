@@ -5,8 +5,16 @@ module.exports = {
   // collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!**/vendor/**'],
   // coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
+  testMatch: ['**/?(*.)+(test).[jt]s?(x)'],
   transform: {
-    '.(ts|tsx)': 'ts-jest',
+    '.(ts|tsx)': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.app.json',
+        useESM: true,
+      },
+    ],
   },
 
   coveragePathIgnorePatterns: [
@@ -17,15 +25,13 @@ module.exports = {
     'reportWebVitals.ts',
     'setupTests.ts',
     'index.tsx',
+    '/src/__tests__/',
+    'src/api/',
+    'src/utils/localstorage.util.ts',
+    'src/utils/location-history.util.ts',
   ],
   preset: 'ts-jest/presets/default-esm',
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.app.json', // or 'tsconfig.test.json'
-      useESM: true,
-    },
-  },
   moduleNameMapper: pathsToModuleNameMapper(
     {
       '@modules/*': ['./src/modules/*'],
@@ -37,6 +43,7 @@ module.exports = {
       '@apis/*': ['./src/api/*'],
       '@constants/*': ['./src/constants/*'],
       '@contexts/*': ['./src/contexts/*'],
+      '@root/*': ['./src/*'],
     },
     {
       prefix: '<rootDir>/',

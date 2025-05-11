@@ -18,7 +18,9 @@ function WeatherDetail() {
       <div>
         <div className="shadow-lg rounded-2xl border border-gray-200 px-4 py-8 text-center">
           <span className="text-base font-semibold text-indigo-600">404</span>
-          <h3 className="mt-4 text-2xl font-semibold tracking-tight text-balance text-gray-900">
+          <h3
+            className="mt-4 text-2xl font-semibold tracking-tight text-balance text-gray-900"
+            aria-label="weather error-empty">
             Sorry, We can not load the forecast
           </h3>
         </div>
@@ -42,7 +44,7 @@ function WeatherDetail() {
         </div>
         <div className="w-1/2 inline-block text-center">
           <div className="text-5xl font-semibold">
-            {Math.round(weather.main.temp)}°C
+            {Math.floor(weather.main.temp)}°C
           </div>
           <div className="text-gray-500 capitalize text-sm">
             {weather.weather[0].description}

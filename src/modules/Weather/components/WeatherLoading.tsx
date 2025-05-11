@@ -1,6 +1,9 @@
 function WeatherLoading() {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-lg border animate-pulse border-gray-200">
+    <div
+      className="p-4 bg-white rounded-lg shadow-lg border animate-pulse border-gray-200"
+      aria-label="weather loading"
+      role="presentation">
       <div className="w-30 h-6 bg-gray-200" />
       <div className="flex items-center justify-between mt-4">
         <div className="w-1/2 flex justify-center">

@@ -17,7 +17,7 @@ export interface IWeatherDetail {
 }
 
 export interface IWeatherWind {
-  speed: number;
+  speed?: number;
   deg: number;
 }
 

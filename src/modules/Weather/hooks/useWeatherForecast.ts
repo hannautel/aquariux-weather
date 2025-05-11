@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { IWeatherForecastByDate } from '@typed/weather-forecast';
 import { useDisclosure } from '@hooks/useDicslosure';
 import { get5DaysForecastOfLocation } from '@apis/weather.api';
-import dayjs from 'dayjs';
+import { groupForecastsByDay } from '../utils/group-forecasts.util';
 
 function useWeatherForecast(lat: number, lon: number) {
   const [forecastGroups, setForecastGroups] = useState<
@@ -19,33 +19,8 @@ function useWeatherForecast(lat: number, lon: number) {
     try {
       startLoadingWeather();
       const listForecast = await get5DaysForecastOfLocation(lat, lon);
-      const forecastMapByDate = listForecast.reduce<
-        Record<number, IWeatherForecastByDate>
-      >((hashMap, forecast) => {
-        const time = dayjs.unix(forecast.dt).startOf('day').unix();
-        const forecastEntry = {
-          min: forecast.main.temp_min,
-          max: forecast.main.temp_max,
-          temp: forecast.main.temp,
-          state: forecast.weather[0].description,
-          time: dayjs.unix(forecast.dt).format('HH:mm'),
-          icon: forecast.weather[0].icon,
-        };
-        if (!hashMap[time]) {
-          return {
-            ...hashMap,
-            [time]: { date: time, forecast: [forecastEntry] },
-          };
-        }
-        return {
-          ...hashMap,
-          [time]: {
-            ...hashMap[time],
-            forecast: [...(hashMap[time].forecast || []), forecastEntry],
-          },
-        };
-      }, {});
-      setForecastGroups(Object.values(forecastMapByDate));
+      const forecastMapByDay = groupForecastsByDay(listForecast);
+      setForecastGroups(forecastMapByDay);
     } catch (error: unknown) {
       // trace if needed
       console.log({ error }); // sample trace

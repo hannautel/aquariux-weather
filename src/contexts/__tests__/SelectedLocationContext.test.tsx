@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
 import SelectedLocationProvider, {
   useSelectedLocationContext,
 } from '../SelectedLocationContext';
@@ -6,18 +6,16 @@ import { DEFAULT_COORDINATE } from '@constants/coordinate';
 import * as locationUtils from '@utils/location-history.util';
 import userEvent from '@testing-library/user-event';
 
-// Mock useConst (if it affects memoization)
 jest.mock('@hooks/useConst', () => ({
   __esModule: true,
   default: (factory: () => void) => factory(),
 }));
 
-// Mock getSearchHistory
 jest.mock('@utils/location-history.util', () => ({
   getSearchHistory: jest.fn(),
 }));
 
-const DummyComponent = () => {
+const TestComponent = () => {
   const { coord, onChangeCoord } = useSelectedLocationContext();
 
   return (
@@ -40,61 +38,86 @@ const DummyComponent = () => {
 };
 
 describe('SelectedLocationProvider', () => {
-  it('should use DEFAULT_COORDINATE when no search history exists', () => {
-    (locationUtils.getSearchHistory as jest.Mock).mockReturnValue([]);
+  describe('when context provider wrapper is missing', () => {
+    it('should use default value and not throw erorr', () => {
+      const { result } = renderHook(() => useSelectedLocationContext());
 
-    render(
-      <SelectedLocationProvider>
-        <DummyComponent />
-      </SelectedLocationProvider>,
-    );
-
-    const coord = screen.getByTestId('coord').textContent;
-    expect(coord).toBe(JSON.stringify(DEFAULT_COORDINATE));
+      expect(result.current).toHaveProperty('onChangeCoord');
+      expect(typeof result.current.onChangeCoord).toBe('function');
+      expect(() =>
+        result.current.onChangeCoord({
+          lat: 0,
+          lon: 0,
+          name: 'Singapore',
+          state: '',
+          country: 'SG',
+        }),
+      ).not.toThrow();
+    });
   });
 
-  it('should use first item in search history if available', () => {
-    const mockCoord = {
-      lat: 1,
-      lon: 2,
-      name: 'Mock City',
-      state: 'MC',
-      country: 'Mockland',
-    };
+  describe('when no search history exists', () => {
+    it('should use DEFAULT_COORDINATE', () => {
+      (locationUtils.getSearchHistory as jest.Mock).mockReturnValue([]);
 
-    (locationUtils.getSearchHistory as jest.Mock).mockReturnValue([mockCoord]);
+      render(
+        <SelectedLocationProvider>
+          <TestComponent />
+        </SelectedLocationProvider>,
+      );
 
-    render(
-      <SelectedLocationProvider>
-        <DummyComponent />
-      </SelectedLocationProvider>,
-    );
-
-    const coord = screen.getByTestId('coord').textContent;
-    expect(coord).toBe(JSON.stringify(mockCoord));
+      const coord = screen.getByTestId('coord').textContent;
+      expect(coord).toBe(JSON.stringify(DEFAULT_COORDINATE));
+    });
   });
 
-  it('should update coord when onChangeCoord is called', async () => {
-    (locationUtils.getSearchHistory as jest.Mock).mockReturnValue([]);
+  describe('when search history exists', () => {
+    it('should use first item of histories', () => {
+      const mockCoord = {
+        lat: 1,
+        lon: 2,
+        name: 'Singapore',
+        state: '',
+        country: 'SG',
+      };
+      (locationUtils.getSearchHistory as jest.Mock).mockReturnValue([
+        mockCoord,
+      ]);
 
-    render(
-      <SelectedLocationProvider>
-        <DummyComponent />
-      </SelectedLocationProvider>,
-    );
+      render(
+        <SelectedLocationProvider>
+          <TestComponent />
+        </SelectedLocationProvider>,
+      );
 
-    const button = screen.getByRole('button', { name: /change coord/i });
-    await userEvent.click(button);
+      const coord = screen.getByTestId('coord').textContent;
+      expect(coord).toBe(JSON.stringify(mockCoord));
+    });
+  });
 
-    const updated = {
-      lat: 10,
-      lon: 20,
-      name: 'New City',
-      state: 'State',
-      country: 'Country',
-    };
-    expect(screen.getByTestId('coord').textContent).toBe(
-      JSON.stringify(updated),
-    );
+  describe('when onChangeCoord is called', () => {
+    it('should update coord correctly', async () => {
+      (locationUtils.getSearchHistory as jest.Mock).mockReturnValue([]);
+
+      render(
+        <SelectedLocationProvider>
+          <TestComponent />
+        </SelectedLocationProvider>,
+      );
+
+      const button = screen.getByRole('button', { name: /change coord/i });
+      await userEvent.click(button);
+
+      const updated = {
+        lat: 10,
+        lon: 20,
+        name: 'New City',
+        state: 'State',
+        country: 'Country',
+      };
+      expect(screen.getByTestId('coord').textContent).toBe(
+        JSON.stringify(updated),
+      );
+    });
   });
 });

@@ -1,11 +1,11 @@
 import axios, { type AxiosResponse } from 'axios';
-import { APP_ID } from '@configs/api';
+import { getAppId } from '@configs/api';
 import type { ILocation } from '@typed/location';
 
 async function getCitiesByKeyword(keyword: string) {
   const queryParams = new URLSearchParams({
     q: keyword,
-    appid: APP_ID,
+    appid: getAppId(),
     limit: '10',
   });
   return axios

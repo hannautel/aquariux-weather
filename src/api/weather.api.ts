@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import { APP_ID } from '@configs/api';
+import { getAppId } from '@configs/api';
 import type { IWeather } from '@typed/weather';
 import type { IWeatherForecastResponse } from '@typed/weather-forecast';
 
@@ -12,7 +12,7 @@ async function getWeatherOfLocation(
   const queryParams = new URLSearchParams({
     lat: lat.toString(),
     lon: lon.toString(),
-    appid: APP_ID,
+    appid: getAppId(),
     units: 'metric',
   });
   return axios
@@ -24,7 +24,7 @@ async function get5DaysForecastOfLocation(lat: number, lon: number) {
   const queryParams = new URLSearchParams({
     lat: lat.toString(),
     lon: lon.toString(),
-    appid: APP_ID,
+    appid: getAppId(),
     units: 'metric',
   });
   return axios
