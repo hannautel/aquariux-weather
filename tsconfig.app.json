@@ -28,6 +28,11 @@
       "@hooks/*": ["./src/hooks/*"],
       "@core/*": ["./src/core/*"],
       "@typed/*": ["./src/types/*"],
+      "@configs/*": ["./src/configs/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@apis/*": ["./src/api/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@contexts/*": ["./src/contexts/*"],
     }
   },
   "include": ["src"]
