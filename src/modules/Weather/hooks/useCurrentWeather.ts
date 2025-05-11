@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDisclosure } from '@hooks/useDicslosure';
 import type { IWeather } from '@typed/weather';
-import { getWeatherOfCity } from '@apis/weather.api';
+import { getWeatherOfLocation } from '@apis/weather.api';
 
 function useCurrentWeather(lat: number, lon: number) {
   const [weather, setWeather] = useState<IWeather | null>(null);
@@ -15,7 +15,7 @@ function useCurrentWeather(lat: number, lon: number) {
   const handleLoadingWeather = useCallback(async () => {
     try {
       startLoadingWeather();
-      const currentWeather = await getWeatherOfCity(lat, lon);
+      const currentWeather = await getWeatherOfLocation(lat, lon);
       setWeather(currentWeather);
     } catch (error: unknown) {
       // trace if needed

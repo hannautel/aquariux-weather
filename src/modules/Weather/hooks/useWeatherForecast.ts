@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { IWeatherForecastByDate } from '@typed/weather-forecast';
 import { useDisclosure } from '@hooks/useDicslosure';
-import { get5DaysForecastOfCity } from '@apis/weather.api';
+import { get5DaysForecastOfLocation } from '@apis/weather.api';
 import dayjs from 'dayjs';
 
 function useWeatherForecast(lat: number, lon: number) {
@@ -18,7 +18,7 @@ function useWeatherForecast(lat: number, lon: number) {
   const handleLoadingForecast = useCallback(async () => {
     try {
       startLoadingWeather();
-      const listForecast = await get5DaysForecastOfCity(lat, lon);
+      const listForecast = await get5DaysForecastOfLocation(lat, lon);
       const forecastMapByDate = listForecast.reduce<
         Record<number, IWeatherForecastByDate>
       >((hashMap, forecast) => {

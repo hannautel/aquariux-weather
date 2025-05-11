@@ -5,7 +5,10 @@ import type { IWeatherForecastResponse } from '@typed/weather-forecast';
 
 const API_VERSION = '/data/2.5';
 
-async function getWeatherOfCity(lat: number, lon: number): Promise<IWeather> {
+async function getWeatherOfLocation(
+  lat: number,
+  lon: number,
+): Promise<IWeather> {
   const queryParams = new URLSearchParams({
     lat: lat.toString(),
     lon: lon.toString(),
@@ -17,7 +20,7 @@ async function getWeatherOfCity(lat: number, lon: number): Promise<IWeather> {
     .then((response: AxiosResponse<IWeather>) => response.data);
 }
 
-async function get5DaysForecastOfCity(lat: number, lon: number) {
+async function get5DaysForecastOfLocation(lat: number, lon: number) {
   const queryParams = new URLSearchParams({
     lat: lat.toString(),
     lon: lon.toString(),
@@ -32,4 +35,4 @@ async function get5DaysForecastOfCity(lat: number, lon: number) {
     );
 }
 
-export { getWeatherOfCity, get5DaysForecastOfCity };
+export { getWeatherOfLocation, get5DaysForecastOfLocation };

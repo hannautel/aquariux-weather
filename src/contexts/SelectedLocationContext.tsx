@@ -7,8 +7,8 @@ import {
   type ReactNode,
 } from 'react';
 import { DEFAULT_COORDINATE } from '@constants/coordinate';
-import type { ILocation } from '@typed/city';
-import { getSearchHistory } from '@utils/weather-history.util';
+import type { ILocation } from '@typed/location';
+import { getSearchHistory } from '@utils/location-history.util';
 
 interface Props {
   children: ReactNode;

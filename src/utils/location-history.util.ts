@@ -1,5 +1,5 @@
 import LOCALSTORAGE_KEYS from '@constants/localstorage';
-import type { ILocation } from '@typed/city';
+import type { ILocation } from '@typed/location';
 import { getLocalstorageItem } from '@utils/localstorage.util';
 
 function getSearchHistory(): ILocation[] {
