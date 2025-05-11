@@ -1,41 +1,26 @@
+import dayjs from 'dayjs';
 import { ArrowUp } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { getWeatherIcon, getWeatherVisibility } from '@utils/weather.util';
+import { useSelectedLocationContext } from '@contexts/SelectedLocationContext';
+import WeatherLoading from '@modules/weather/components/WeatherLoading';
+import useCurrentWeather from '@modules/weather/hooks/useCurrentWeather';
 
 function WeatherDetail() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { coord } = useSelectedLocationContext();
+  const { isLoadingWeather, weather } = useCurrentWeather(coord.lat, coord.lon);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3_000);
-  }, []);
+  if (isLoadingWeather) {
+    return <WeatherLoading />;
+  }
 
-  if (isLoading) {
+  if (!weather) {
     return (
-      <div className="p-4 bg-white rounded-lg shadow-lg border animate-pulse border-gray-200">
-        <div className="w-30 h-6 bg-gray-200" />
-        <div className="flex items-center justify-between mt-4">
-          <div className="w-1/2 flex justify-center">
-            <div className="size-32 rounded-full bg-gray-200" />
-          </div>
-          <div className="w-1/2 inline-block text-center">
-            <div className="w-20 h-12 bg-gray-200" />
-            <div className="w-20 h-5 bg-gray-200" />
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-4 mt-4 text-center">
-          <div>
-            <div className="w-20 h-5 bg-gray-200" />
-            <div className="mt-1 w-20 h-7 bg-gray-200" />
-          </div>
-          <div>
-            <div className="w-20 h-5 bg-gray-200" />
-            <div className="mt-1 w-20 h-7 bg-gray-200" />
-          </div>
-          <div>
-            <div className="w-20 h-5 bg-gray-200" />
-            <div className="mt-1 w-20 h-7 bg-gray-200" />
-          </div>
+      <div>
+        <div className="shadow-lg rounded-2xl border border-gray-200 px-4 py-8 text-center">
+          <span className="text-base font-semibold text-indigo-600">404</span>
+          <h3 className="mt-4 text-2xl font-semibold tracking-tight text-balance text-gray-900">
+            Sorry, We can not load the forecast
+          </h3>
         </div>
       </div>
     );
@@ -43,37 +28,51 @@ function WeatherDetail() {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-lg border border-gray-200">
-      <div className="text-base text-left text-gray-900">January 24, 2024</div>
+      <div className="text-base text-left text-gray-900">
+        {dayjs().format('MMMM DD, YYYY')}
+      </div>
       <div className="flex items-center justify-between mt-4">
         <div className="w-1/2 flex justify-center">
           <img
             alt="overcast clouds"
+            loading="lazy"
             className="w-32 h-32"
-            src="https://openweathermap.org/img/wn/04d@2x.png"
+            src={getWeatherIcon(weather.weather[0].icon, '2x')}
           />
         </div>
         <div className="w-1/2 inline-block text-center">
-          <div className="text-5xl font-semibold">26°C</div>
-          <div className="text-gray-500 capitalize text-sm">Broken clouds</div>
+          <div className="text-5xl font-semibold">
+            {Math.round(weather.main.temp)}°C
+          </div>
+          <div className="text-gray-500 capitalize text-sm">
+            {weather.weather[0].description}
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4 mt-4 text-center">
         <div>
           <div className="text-sm text-gray-500">Humidity</div>
-          <div className="mt-1 text-base font-semibold sm:text-lg">96%</div>
+          <div className="mt-1 text-base font-semibold sm:text-lg">
+            {weather.main.humidity}%
+          </div>
         </div>
         <div>
           <div className="text-sm text-gray-500">Winds</div>
           <div className="mt-1 text-base flex items-center justify-center gap-1 font-semibold sm:text-lg">
             <span className="inline-block transform">
-              <ArrowUp size="22px" className="rotate-225" />
+              <ArrowUp
+                size="22px"
+                style={{ transform: `rotate(${weather.wind.deg}deg)` }}
+              />
             </span>
-            1.54 m/s
+            {weather.wind.speed || 0} m/s
           </div>
         </div>
         <div>
           <div className="text-sm text-gray-500">Visibility</div>
-          <div className="mt-1 text-base font-semibold sm:text-lg">8 km</div>
+          <div className="mt-1 text-base font-semibold sm:text-lg">
+            {getWeatherVisibility(weather.visibility)}
+          </div>
         </div>
       </div>
     </div>
